@@ -1,0 +1,70 @@
+<md-toolbar class="md-hue-2 title-area" ng-clas="{'md-whiteframe-1dp' : todos.length}" style="margin-bottom:0;min-height: 30px;height: 40px;line-height: 30px">
+	<div class="md-toolbar-tools">
+	    <h2 style="font-size: 1.2rem;font-weight: 500">
+	      <span>Todos</span>
+	    </h2>
+	    <span flex></span>
+	    <md-button class="md-icon-button" aria-label="Favorite" ng-click="minimizeApp()">
+	      <md-icon class="zmdi zmdi-minus"></md-icon>
+	    </md-button>	    
+	    <md-button class="md-icon-button" aria-label="Favorite" ng-click="closeApp()">
+	      <md-icon class="zmdi zmdi-close"></md-icon>
+	    </md-button>	    
+	</div>
+</md-toolbar>
+
+<md-content layout="column" layout-fill style="background:#f6f6f6;color:rgb(97,97,97);" ng-nicescroll nice-option="{cursorcolor: '#aaa'}">
+	<div style="margin-top: -75px;font-size:17px;background-color: rgb(238,238,238);
+    color: rgba(0,0,0,0.87);" flex layout="column" layout-fill layout-align="center center" aria-label="New task" ng-if="!todos.length">
+    	<!-- <div> -->
+    		<i style="color:#888;font-size: 45px" class="zmdi zmdi-thumb-up"></i><br>
+			<span style="color: #888">You have no pending tasks</span><br>
+			<md-button ng-click="showNewTodoForm()" style="background-color: rgba(158,158,158,0.2);color:#777;">ADD NEW TASK</md-button>
+    	<!-- </div> -->
+	</div>	
+	<md-list style="padding-bottom: 40px" ng-if="todos.length">
+	  <md-list-item class="md-2-line" style="padding-right: 5px" ng-hide="todo.isTemp" ng-repeat="todo in todos track by $index" ng-class="{'active': todo.done}">
+	    <div class="md-list-item-text" layout="column">
+	        <h3 style="font-size: 19px">{{ todo.title | limitTo : 20 }}<span ng-if="todo.title.length > 20">...</span></h3>
+	        <h4 style="color:#888;">{{ todo.content | limitTo : 30 }}<span ng-if="todo.content.length > 30">...</span></h4>
+	    </div>
+	    <span style="width: 15px"></span>
+	    <md-menu class="md-secondar" md-position-mode="target-left target" style="margin-right: 30px">
+	  		<md-button style="max-height:10px;margin: 0;margin-top: 9px;" aria-label="Show options" class="md-icon-button" ng-click="openMenu($mdOpenMenu, $event)">
+		       <md-icon md-menu-origin style="color:rgba(0,0,0,0.87);" class="zmdi zmdi-more-vert"></md-icon>
+		    </md-button>
+			<md-menu-content width="2">
+				<md-menu-item>
+					<md-button aria-label="Clear tasks" ng-click="deleteTask(todo)">
+						<md-icon md-menu-align-target class="zmdi zmdi-delete" style="margin-top:9px"></md-icon>Delete task
+                	</md-button>
+				</md-menu-item>
+				<md-menu-item>
+					<md-button aria-label="Clear tasks" ng-click="notify(todo)">
+						<md-icon md-menu-align-target class="zmdi zmdi-time" style="margin-top:9px"></md-icon>Set reminder
+                	</md-button>
+				</md-menu-item>				
+			</md-menu-content>
+	  	</md-menu>
+	  	<md-checkbox class="md-secondary" aria-label="{{todo.title}} done" ng-model="todo.done" ng-change="updateTodos()"></md-checkbox>
+    	<!-- <md-button aria-label="Delete task" class="md-icon-button md-secondary" ng-click="deleteTask($index)" style="line-height: 21px; margin-right: -8px">
+	       <md-icon class="zmdi zmdi-delete" style="font-size: 24px"></md-icon>
+	    </md-button> -->
+	    <md-divider></md-divider>
+	  </md-list-item>
+	</md-list>
+	<md-fab-speed-dial md-direction="up" md-open="fab.isOpen" class="md-scale md-fab-bottom-right" ng-mouseenter="fab.isOpen=true" ng-mouseleave="fab.isOpen=false" style="position:fixed;bottom:16px;right:10px">
+      	<md-fab-trigger>
+	        <md-button aria-label="New task" class="md-fab md-mini md-primar"  ng-click="showNewTodoForm()" ng-if="todos.length">
+	        	<md-tooltip md-direction="left" md-visible="tooltipVisible">New task</md-tooltip>
+				<md-icon class="zmdi zmdi-plus" style="line-height: 20px"></md-icon>
+			</md-button>
+		</md-fab-trigger>
+		<md-fab-actions>
+			<md-button class="md-fab md-hue-1 md-mini" aria-label="Clear tasks" ng-click="clearTodos($event, 'all')" style="background-color: rgb(220,220,220);">
+		    	<md-tooltip md-direction="left" md-visible="tooltipVisible" md-autohide="false">Delete tasks</md-tooltip>
+				<md-icon class="zmdi zmdi-delete" style="line-height: 20px;color:rgba(0,0,0,0.57) !important;" aria-label="Delete all tasks"></md-icon>
+			</md-button>
+		</md-fab-actions>
+    </md-fab-speed-dial>
+</md-content>

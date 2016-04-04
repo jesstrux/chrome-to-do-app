@@ -1,0 +1,17 @@
+.zmdi{
+	/*line-height: inherit;*/
+	font-size: 20px;
+}
+.title-area{
+	-webkit-app-region: drag;
+}
+.title-area .zmdi{
+	-webkit-app-region: no-drag;
+}
+/*background: #f9f9f9;*/
+md-list-item.active{
+	/*background-color: rgba(158,158,158,0.1);*/
+}
+input:focus{
+	outline: none;
+}
